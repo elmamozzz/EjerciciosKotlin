@@ -4,6 +4,7 @@ fun main() {
     println(resultado) 
 }
 
-private fun ordenarPorLongitud(lista: List<String>, criterio: (String) -> Int): List<String> {
+fun ordenarPorLongitud(lista: List<String>, criterio: (String) -> Int): List<String> {
     return lista.sortedBy(criterio)
 }
+
