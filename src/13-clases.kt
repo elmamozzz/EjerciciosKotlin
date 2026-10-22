@@ -163,14 +163,53 @@ class RangeRegulator(
 
 fun main() {
 
-    // En main se instancian objetos de clases definidas mediante relaciones IS-A con la superclase SmartDevice
+    // 1. En main se instancian objetos de clases definidas mediante relaciones IS-A con la superclase SmartDevice
+    // Es un ejemplo de polimorfismo
     // El constructor implícito toma los parametros para inicializar los atributos de la clase
     var smartDevice: SmartDevice = SmartTvDevice("Android TV", "Entertainment")
-    
+
+    println("\n--- POLOMORFISMO ESTADO INICIAL ---")
     // Llamada al metodo de la clase
     smartDevice.turnOn()
 
+    // Segundo ejemplo de polimorfismo
     smartDevice = SmartLightDevice("Google Light", "Utility")
     smartDevice.turnOn()
+
+    // 2. Instanciamos los dispositivos específicos
+    val miTv = SmartTvDevice("Samsung Smart TV", "Salón")
+    val miLuz = SmartLightDevice("Philips Hue", "Lámpara techo")
+
+    // 3. Creamos la casa inteligente (SmartHome) vinculando los dispositivos
+    val miCasa = SmartHome(smartTvDevice = miTv, smartLightDevice = miLuz)
+
+    println("\n--- DISPOSITIVOS ESPECIFICOS ESTADO INICIAL ---")
+    println("Dispositivos encendidos en casa: ${miCasa.deviceTurnOnCount}")
+
+    println("\n--- ENCENDIENDO DISPOSITIVOS ---")
+    // Al encender la TV, el volumen partirá de 2 y el canal de 1 (por defecto en el RangeRegulator)
+    miCasa.turnOnTv()
+
+    // Al encender la luz, el método turnOn() sobrescrito forzará el brillo a 2
+    miCasa.turnOnLight()
+
+    println("\nDispositivos encendidos en casa: ${miCasa.deviceTurnOnCount}")
+
+    println("\n--- PROBANDO MÉTODOS Y ATRIBUTOS ---")
+    // Subimos el volumen de la TV un par de veces (pasará de 2 a 3, y luego a 4)
+    miCasa.increaseTvVolume()
+    miCasa.increaseTvVolume()
+
+    // Cambiamos de canal varias veces (pasará del 1 al 2, y luego al 3)
+    miCasa.changeTvChannelToNext()
+    miCasa.changeTvChannelToNext()
+
+    // Aumentamos el brillo de la luz (pasará de 2 a 3)
+    miCasa.increaseLightBrightness()
+
+    println("\n--- APAGANDO EL SISTEMA ---")
+    // Usamos el método general de SmartHome para apagar todo a la vez
+    miCasa.turnOffAllDevices()
+    println("Dispositivos encendidos en casa: ${miCasa.deviceTurnOnCount}")
 }
 
